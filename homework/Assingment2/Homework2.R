@@ -96,4 +96,32 @@ counter_from_1()
 
 #Question 10:
 #a) Use read_csv the cars.csv and store it in a data frame.
+cars_df <- read_csv("homework/Assingment2/cars.csv")
 #b) Then, group the data frame by Make, get averages across the numeric variables, and then sort by Volume in descending order. Hint: Use summarise(across(c(), mean)) to get the averages.
+group_by(cars_df, Make)
+cars_df %>%
+group_by(Make) %>%
+summarise(across(c(Volume, Weight, CO2), mean)) %>%
+arrange(desc(Volume))
+
+#Question 11: Make a function that returns the Fibonacci sequence, then call it 7 times to return the first 7 values of the
+sequence. Use the correct counter function from question 9 for inspiration.
+fibonacci <- function() {
+  a <- 0
+  b <- 1
+  function() {
+    result <- a
+    a <<- b
+    b <<- result + b
+    result
+  }
+}
+fib <- fibonacci()
+
+fib() 
+fib()  
+fib()  
+fib()  
+fib() 
+fib()  
+fib()     
