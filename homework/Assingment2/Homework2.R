@@ -98,8 +98,7 @@ group_by(Make) %>%
 summarise(across(c(Volume, Weight, CO2), mean)) %>%
 arrange(desc(Volume))
 
-#Question 11: Make a function that returns the Fibonacci sequence, then call it 7 times to return the first 7 values of the
-sequence.
+#Question 11: Make a function that returns the Fibonacci sequence, then call it 7 times to return the first 7 values of the sequence.
 fibonacci <- function() {
   a <- 0
   b <- 1
