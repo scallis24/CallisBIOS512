@@ -34,7 +34,6 @@ while (x <= 3) {
 x <- x + 1;
 }
 x
-[1] 4
 #while() loop keeps running until the condition x<=3 (x≤3) is false in the temporary environment, R processes it in the following way: 
 #1. The loop starts with x=0 
 #2. 0+1=1 1<3 so it loops again and now x=1
@@ -46,7 +45,6 @@ for(y in c(1,2,3)) {
 y <- y + 1;
 }
 y
-[1] 4
 #for() loop keeps running until it has assigned all values in c(1,2,3) to y in the temporary environment, R processes it in the following way:
 #1. The loop starts with y=1
 #2. 1+1=2 so it loops again with y=2, the next value in c(1,2,3) NOT because 2 was the last assingment of y 
@@ -62,7 +60,6 @@ pythagorean <- function(a, b) {
   sqrt(a^2 + b^2)
 }
 print(pythagorean(3,4))
-[1] 5
 #Question 8 Load the help for the built in sin() function.
 ?sin
 
@@ -117,7 +114,6 @@ fibonacci <- function() {
   }
 }
 fib <- fibonacci()
-
 fib() 
 fib()  
 fib()  
