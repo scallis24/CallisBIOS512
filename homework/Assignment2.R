@@ -62,3 +62,38 @@ pythagorean <- function(a, b) {
   sqrt(a^2 + b^2)
 }
 print(pythagorean(3,4))
+[1] 5
+#Question 8 Load the help for the built in sin() function.
+?sin
+
+#Question 9 Which version of the counter function works? What is the difference in the way R processes the two functions?
+counter1 <- function(start, step){
+    val <- start;
+    function(){
+        old_val <- val;
+        val <- val + step;
+        old_val;
+    }
+}
+counter_from_1 <- counter1(1,1);
+counter_from_1()
+counter_from_1()
+
+counter2 <- function(start, step){
+    val <- start;
+    function(){
+        old_val <- val;
+        val <<- val + step;
+        old_val;
+    }
+}
+counter_from_1 <- counter2(1,1);
+counter_from_1()
+counter_from_1()
+#Counter2 works and prints [1] 2 as expected, Counter1 does not work and prints [1] 1. The key difference in the way that R processes the 2 functions is the following:
+#Counter1: Uses <- creates a binding inside the inner function only, and therefore does not update value in the parent environment. Thus the value resets each call and will print 1 each time it is called.
+#Counter2: Uses <<- which updates the value in the parent environment. This value is stored and remembered for subsequent calls. Thus when we call it twice it will print 1 and then 2
+
+#Question 10:
+#a) Use read_csv the cars.csv and store it in a data frame.
+#b) Then, group the data frame by Make, get averages across the numeric variables, and then sort by Volume in descending order. Hint: Use summarise(across(c(), mean)) to get the averages.
