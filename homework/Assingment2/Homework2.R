@@ -29,11 +29,11 @@ c(1,2,3)
 #<- while it is a function, it is also an assignment, and it creates a binding
 
 #Question 6: What’s the difference in the way R processes the while() and the for() below?
-> x <- 0;
-> while (x <= 3) {
-+     x <- x + 1;
-+ }
-> x
+x <- 0;
+while (x <= 3) {
+x <- x + 1;
+}
+x
 [1] 4
 #while() loop keeps running until the condition x<=3 (x≤3) is false in the temporary environment, R processes it in the following way: 
 #1. The loop starts with x=0 
@@ -42,10 +42,10 @@ c(1,2,3)
 #4. 2+1=3 3=3 so it loops again and now x=3
 #5. 3+1=4 4≠3 so the loop stops
 #6. R prints [1] 4, and x<-4 is stored in the global environment
-> for(y in c(1,2,3)) {
-+     y <- y + 1;
-+ }
-> y
+for(y in c(1,2,3)) {
+y <- y + 1;
+}
+y
 [1] 4
 #for() loop keeps running until it has assigned all values in c(1,2,3) to y in the temporary environment, R processes it in the following way:
 #1. The loop starts with y=1
