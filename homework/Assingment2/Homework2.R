@@ -102,7 +102,7 @@ summarise(across(c(Volume, Weight, CO2), mean)) %>%
 arrange(desc(Volume))
 
 #Question 11: Make a function that returns the Fibonacci sequence, then call it 7 times to return the first 7 values of the
-sequence. Use the correct counter function from question 9 for inspiration.
+sequence.
 fibonacci <- function() {
   a <- 0
   b <- 1
