@@ -18,8 +18,8 @@ print('He said, "I’m Garth Marenghi. Author\\Dreamweaver\\Visionary. Plus acto
 cat('He said, "I’m Garth Marenghi. Author\\Dreamweaver\\Visionary. Plus actor."')
 
 #Question 4: Show two ways to get the following array: 1 2 3
-c(1,2,3)
-1:3
+print(c(1,2,3))
+print(1:3)
 
 #Question 5: What does R call things like +, -, sin(), c(), etc? What about <-? 
 #+, -, sin(), c(), and <- are all functions
@@ -30,7 +30,7 @@ x <- 0;
 while (x <= 3) {
 x <- x + 1;
 }
-x
+print(x)
 #while() loop keeps running until the condition x<=3 (x≤3) is false in the temporary environment, R processes it in the following way: 
 #1. The loop starts with x=0 
 #2. 0+1=1 1<3 so it loops again and now x=1
@@ -41,7 +41,7 @@ x
 for(y in c(1,2,3)) {
 y <- y + 1;
 }
-y
+print(y)
 #for() loop keeps running until it has assigned all values in c(1,2,3) to y in the temporary environment, R processes it in the following way:
 #1. The loop starts with y=1
 #2. 1+1=2 so it loops again with y=2, the next value in c(1,2,3) NOT because 2 was the last assingment of y 
@@ -70,8 +70,8 @@ counter1 <- function(start, step){
     }
 }
 counter_from_1 <- counter1(1,1);
-counter_from_1()
-counter_from_1()
+print(counter_from_1())
+print(counter_from_1())
 
 counter2 <- function(start, step){
     val <- start;
@@ -82,8 +82,8 @@ counter2 <- function(start, step){
     }
 }
 counter_from_1 <- counter2(1,1);
-counter_from_1()
-counter_from_1()
+print(counter_from_1())
+print(counter_from_1())
 #Counter2 works and prints [1] 2 as expected, Counter1 does not work and prints [1] 1. The key difference in the way that R processes the 2 functions is the following:
 #Counter1: Uses <- creates a binding inside the inner function only, and therefore does not update value in the parent environment. Thus the value resets each call and will print 1 each time it is called.
 #Counter2: Uses <<- which updates the value in the parent environment. This value is stored and remembered for subsequent calls. Thus when we call it twice it will print 1 and then 2
@@ -92,11 +92,12 @@ counter_from_1()
 #a) Use read_csv the cars.csv and store it in a data frame.
 cars_df <- read_csv("homework/Assingment2/cars.csv")
 #b) Then, group the data frame by Make, get averages across the numeric variables, and then sort by Volume in descending order. Hint: Use summarise(across(c(), mean)) to get the averages.
-group_by(cars_df, Make)
+print(
 cars_df %>%
 group_by(Make) %>%
 summarise(across(c(Volume, Weight, CO2), mean)) %>%
 arrange(desc(Volume))
+)
 
 #Question 11: Make a function that returns the Fibonacci sequence, then call it 7 times to return the first 7 values of the sequence.
 fibonacci <- function() {
@@ -110,10 +111,10 @@ fibonacci <- function() {
   }
 }
 fib <- fibonacci()
-fib() 
-fib()  
-fib()  
-fib()  
-fib() 
-fib()  
-fib()     
+print(fib())
+print(fib())
+print(fib())
+print(fib())
+print(fib())
+print(fib())
+print(fib())
