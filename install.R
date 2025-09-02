@@ -1,6 +1,5 @@
-options(repos = c(CRAN = "https://cran.r-project.org"))
+install.packages("tidyverse", dependencies = TRUE)
+install.packages("rmarkdown", dependencies = TRUE)
+install.packages("IRkernel", dependencies = TRUE)
 
-# Install tidyverse only if it's not already available
-if (!requireNamespace("tidyverse", quietly = TRUE)) {
-  install.packages("tidyverse")
-}
+IRkernel::installspec(user = FALSE)
