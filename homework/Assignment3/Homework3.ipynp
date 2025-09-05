@@ -1,1 +1,20 @@
+library(tidyverse)
 
+#Assignment 3
+#Author: Callis, Suzi 
+#Date: 09/05/2025
+
+#Question 1
+
+#Question 2
+#cd ~/Desktop/"UNC"/"BIOS 512"
+#git clone https://github.com/scallis24/CallisBIOS512.git
+#git status
+
+#Question 3 
+#I used my exisiting key (id_ed25519) which is in my Github as "Mac Key"
+#ssh-add ~/.ssh/id_ed25519
+#git remote add origin git@github.com:scallis24/CallisBIOS512.git
+#git push -u origin main
+
+#Question 4
