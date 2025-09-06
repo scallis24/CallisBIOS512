@@ -119,3 +119,26 @@ if (!exists("ggmd"))  ggmd  <- function(p) { print(p) }
 #7
 #patient_full <- left_join(patient_names, patient_properties_wide, by = "ID")
 #mdpre(head(patient_full, 10))
+
+#8CHECK
+#patient_full <- patient_full %>%
+#  mutate(
+#    FIRST = iconv(str_replace_all(FIRST, "\\d+", ""), from = "UTF-8", to = "Windows-1252"),
+#    LAST  = iconv(str_replace_all(LAST, "\\d+", ""), from = "UTF-8", to = "Windows-1252")
+#  )
+#mdpre(head(patient_full, 10))
+
+#9CHECK
+#cols_to_count <- c("CITY", "STATE", "MARITAL", "RACE", "ETHNICITY", "GENDER")
+
+#for (col in cols_to_count) {
+#  cat("\n###", col, "\n")
+  
+#  counts <- patient_full %>%
+#    count(.data[[col]]) %>%
+#    arrange(desc(n))
+  
+#  mdpre(counts)
+#}
+
+#10
