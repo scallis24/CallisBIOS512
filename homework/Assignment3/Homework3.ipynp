@@ -1,5 +1,3 @@
-library(tidyverse)
-
 #Assignment 3
 #Author: Callis, Suzi 
 #Date: 09/05/2025
@@ -96,4 +94,28 @@ git commit -m "Add HW2.md for homework 2"
 #git help show
 #Description: --since=<date>, --after=<date> Show commits more recent than a specific date.
 
+library(tidyverse)
+if (!dir.exists("intermediate")) dir.create("intermediate", recursive = TRUE)
+if (!exists("mdpre")) mdpre <- function(x) { print(x) }
+if (!exists("ggmd"))  ggmd  <- function(p) { print(p) }
 
+#5
+#patient_names <- read_csv("homework/Assignment3/patient_names.csv")
+#patient_properties <- read_csv("homework/Assignment3/patient_properties.csv")
+#patient_names <- type_convert(patient_names)
+#head(patient_names$BIRTHDATE, 10)
+#head(patient_names$DEATHDATE, 10)
+
+#6
+#patient_properties_wide <- patient_properties %>%
+#  pivot_wider(
+#    id_cols = ID,
+#    names_from = property,
+#    values_from = value,
+#    values_fn = ~ .x[1]
+#  )
+#mdpre(head(patient_properties_wide, 10))
+
+#7
+#patient_full <- left_join(patient_names, patient_properties_wide, by = "ID")
+#mdpre(head(patient_full, 10))
