@@ -188,3 +188,7 @@ if (!exists("ggmd"))  ggmd  <- function(p) { print(p) }
 # )
  
 # mdpre(date_summary)
+
+#11
+#tidied_data <- tidied_data %>%
+  mutate(AGE = as.integer(floor(difftime(Sys.Date(), BIRTHDATE, units = "days") / 365.25)))
