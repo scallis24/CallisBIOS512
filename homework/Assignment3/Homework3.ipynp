@@ -121,6 +121,14 @@ if (!exists("ggmd"))  ggmd  <- function(p) { print(p) }
 #mdpre(head(patient_full, 10))
 
 #8CHECK
+#simplify_strings <- function(s) {
+#  s %>%
+#    str_to_lower() %>%
+#    str_trim() %>%
+#    str_replace_all("[^a-z1-9]+", "_") %>%
+#    str_replace_all("^_+", "") %>%
+#    str_replace_all("_+$", "")
+#}
 #patient_full <- patient_full %>%
 #  mutate(
 #    FIRST = iconv(str_replace_all(FIRST, "\\d+", ""), from = "UTF-8", to = "Windows-1252"),
@@ -142,3 +150,41 @@ if (!exists("ggmd"))  ggmd  <- function(p) { print(p) }
 #}
 
 #10
+#non_erroneous_marital <- c("M", "S")
+#tidied_data <- patient_full %>%
+#  filter(MARITAL %in% non_erroneous_marital)
+
+#tidied_data <- tidied_data %>%
+#     mutate(RACE = ifelse(RACE == "asiann", "asian", RACE))
+
+#tidied_data <- tidied_data %>%
+#     mutate(ETHNICITY = case_when(
+#         ETHNICITY == "nonhispani" ~ "nonhispanic",
+#         ETHNICITY == "hispani" ~ "hispanic",
+#         ETHNICITY == "nonhispanic" ~ "nonhispanic",
+#         ETHNICITY == "hispanic" ~ "hispanic",
+#         TRUE ~ ETHNICITY
+#     ))
+
+#tidied_data <- tidied_data %>%
+#  mutate(GENDER = str_to_lower(GENDER)) %>%
+#  mutate(GENDER = case_when(
+#    GENDER %in% c("m", "male") ~ "male",
+#    GENDER %in% c("f", "female") ~ "female"
+#  ))
+
+#tidied_data <- tidied_data %>%
+#     drop_na()
+
+#mdpre(tidied_data %>% count(GENDER))
+#mdpre(tidied_data %>% count(ETHNICITY))
+#mdpre(tidied_data %>% count(RACE))
+#mdpre(tidied_data %>% count(MARITAL))
+
+#date_summary <- tibble(
+#     Column = c("BIRTHDATE", "DEATHDATE"),
+#     Start = c(min(tidied_data$BIRTHDATE), min(tidied_data$DEATHDATE)),
+#     End = c(max(tidied_data$BIRTHDATE), max(tidied_data$DEATHDATE))
+# )
+ 
+# mdpre(date_summary)
