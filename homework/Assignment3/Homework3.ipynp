@@ -98,6 +98,7 @@ library(tidyverse)
 if (!dir.exists("intermediate")) dir.create("intermediate", recursive = TRUE)
 if (!exists("mdpre")) mdpre <- function(x) { print(x) }
 if (!exists("ggmd"))  ggmd  <- function(p) { print(p) }
+library(lubricate)
 
 #5
 #patient_names <- read_csv("homework/Assignment3/patient_names.csv")
@@ -151,45 +152,62 @@ if (!exists("ggmd"))  ggmd  <- function(p) { print(p) }
 #}
 
 #10
-#non_erroneous_marital <- c("M", "S")
-#tidied_data <- patient_full %>%
-#  filter(MARITAL %in% non_erroneous_marital)
+non_erroneous_marital <- c("M", "S")
+tidied_data <- patient_full %>%
+  filter(MARITAL %in% non_erroneous_marital)
 
-#tidied_data <- tidied_data %>%
-#     mutate(RACE = ifelse(RACE == "asiann", "asian", RACE))
+tidied_data <- tidied_data %>%
+  mutate(RACE = ifelse(RACE == "asiann", "asian", RACE))
 
-#tidied_data <- tidied_data %>%
-#     mutate(ETHNICITY = case_when(
-#         ETHNICITY == "nonhispani" ~ "nonhispanic",
-#         ETHNICITY == "hispani" ~ "hispanic",
-#         ETHNICITY == "nonhispanic" ~ "nonhispanic",
-#         ETHNICITY == "hispanic" ~ "hispanic",
-#         TRUE ~ ETHNICITY
-#     ))
+tidied_data <- tidied_data %>%
+  mutate(ETHNICITY = case_when(
+    ETHNICITY == "nonhispani" ~ "nonhispanic",
+    ETHNICITY == "hispani" ~ "hispanic",
+    ETHNICITY == "nonhispanic" ~ "nonhispanic",
+    ETHNICITY == "hispanic" ~ "hispanic",
+    TRUE ~ ETHNICITY
+  ))
 
-#tidied_data <- tidied_data %>%
-#  mutate(GENDER = str_to_lower(GENDER)) %>%
-#  mutate(GENDER = case_when(
-#    GENDER %in% c("m", "male") ~ "male",
-#    GENDER %in% c("f", "female") ~ "female"
-#  ))
+tidied_data <- tidied_data %>%
+  mutate(GENDER = str_to_lower(GENDER)) %>%
+  mutate(GENDER = case_when(
+    GENDER %in% c("m", "male") ~ "male",
+    GENDER %in% c("f", "female") ~ "female",
+    TRUE ~ GENDER
+  ))
 
-#tidied_data <- tidied_data %>%
-#     drop_na()
+fix_dates <- function(date_col) {
+  parsed <- ymd(date_col)
+  corrected <- if_else(year(parsed) > year(Sys.Date()), parsed %m-% years(100), parsed)
+  return(corrected)
+}
 
-#mdpre(tidied_data %>% count(GENDER))
-#mdpre(tidied_data %>% count(ETHNICITY))
-#mdpre(tidied_data %>% count(RACE))
-#mdpre(tidied_data %>% count(MARITAL))
+tidied_data <- tidied_data %>%
+  mutate(
+    BIRTHDATE = fix_dates(BIRTHDATE),
+    DEATHDATE = fix_dates(DEATHDATE)
+  )
+
+tidied_data <- tidied_data %>%
+  drop_na()
+
+mdpre(tidied_data %>% count(GENDER))
+mdpre(tidied_data %>% count(ETHNICITY))
+mdpre(tidied_data %>% count(RACE))
+mdpre(tidied_data %>% count(MARITAL))
 
 #date_summary <- tibble(
-#  Column = c("BIRTHDATE", "DEATHDATE"),
-#  Start = c(min(tidied_data$BIRTHDATE), min(tidied_data$DEATHDATE)),
-#  End = c(max(tidied_data$BIRTHDATE), max(tidied_data$DEATHDATE))
-#)
-#mdpre(date_summary)
- 
-# mdpre(date_summary)
+     Column = c("BIRTHDATE", "DEATHDATE"),
+     Start = c(
+         format(min(tidied_data$BIRTHDATE), "%Y-%m-%d"),
+         format(min(tidied_data$DEATHDATE), "%Y-%m-%d")
+     ),
+     End = c(
+         format(max(tidied_data$BIRTHDATE), "%Y-%m-%d"),
+         format(max(tidied_data$DEATHDATE), "%Y-%m-%d")
+     )
+ )
+mdpre(date_summary)
 
 #11
 #tidied_data <- tidied_data %>%
