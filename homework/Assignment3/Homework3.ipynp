@@ -189,6 +189,20 @@ tidied_data <- tidied_data %>%
   )
 
 tidied_data <- tidied_data %>%
+  mutate(
+    swap_needed = !is.na(DEATHDATE) & BIRTHDATE > DEATHDATE,
+    
+    new_birthdate = if_else(swap_needed, DEATHDATE, BIRTHDATE),
+    new_deathdate = if_else(swap_needed, BIRTHDATE, DEATHDATE)
+  ) %>%
+  select(-swap_needed) %>%
+  mutate(
+    BIRTHDATE = new_birthdate,
+    DEATHDATE = new_deathdate
+  ) %>%
+  select(-new_birthdate, -new_deathdate)
+
+tidied_data <- tidied_data %>%
   drop_na()
 
 mdpre(tidied_data %>% count(GENDER))
@@ -210,5 +224,36 @@ mdpre(tidied_data %>% count(MARITAL))
 mdpre(date_summary)
 
 #11
-#tidied_data <- tidied_data %>%
-  mutate(AGE = as.integer(floor(difftime(Sys.Date(), BIRTHDATE, units = "days") / 365.25)))
+tidied_data <- tidied_data %>%
+  mutate(
+    AGE = as.numeric(
+      difftime(
+        if_else(is.na(DEATHDATE), Sys.Date(), DEATHDATE),
+        BIRTHDATE,
+        units = "days"
+      )
+    ) %/% 365
+  )
+
+print(
+  ggmd(
+    ggplot(tidied_data %>% filter(GENDER %in% c("male", "female")),
+           aes(x = AGE, fill = GENDER)) +
+      geom_histogram(binwidth = 5, position = "dodge", color = "black") +
+      labs(x = "Age (years)", y = "Count", title = "Histogram of Ages by Gender") +
+      theme_minimal()
+  )
+)
+
+#12
+ggmd(
+  ggplot(
+    tidied_data %>%
+      filter(MARITAL %in% c("M", "S")) %>%
+      mutate(MARITAL = recode(MARITAL, M = "Married", S = "Single")),
+    aes(x = MARITAL, y = BIRTHDATE)
+  ) +
+    geom_point(aes(color = MARITAL), alpha = 0.6, position = position_jitter(width = 0.2, height = 0)) +
+    labs(x = "Marital Status", y = "Birthdate", title = "Scatterplot of Birthdate by Marital Status") +
+    theme_minimal()
+)
