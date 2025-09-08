@@ -102,7 +102,8 @@ if (!exists("ggmd"))  ggmd  <- function(p) { print(p) }
 #5
 #patient_names <- read_csv("homework/Assignment3/patient_names.csv")
 #patient_properties <- read_csv("homework/Assignment3/patient_properties.csv")
-#patient_names <- type_convert(patient_names)
+#patient_names$BIRTHDATE <- as.Date(patient_names$BIRTHDATE, format = "%m/%d/%Y")
+#patient_names$DEATHDATE <- as.Date(patient_names$DEATHDATE, format = "%m/%d/%Y")
 #head(patient_names$BIRTHDATE, 10)
 #head(patient_names$DEATHDATE, 10)
 
@@ -131,8 +132,8 @@ if (!exists("ggmd"))  ggmd  <- function(p) { print(p) }
 #}
 #patient_full <- patient_full %>%
 #  mutate(
-#    FIRST = iconv(str_replace_all(FIRST, "\\d+", ""), from = "UTF-8", to = "Windows-1252"),
-#    LAST  = iconv(str_replace_all(LAST, "\\d+", ""), from = "UTF-8", to = "Windows-1252")
+#    FIRST = simplify_strings(iconv(str_replace_all(FIRST, "\\d+", ""), from = "UTF-8", to = "Windows-1252")),
+#    LAST  = simplify_strings(iconv(str_replace_all(LAST, "\\d+", ""), from = "UTF-8", to = "Windows-1252"))
 #  )
 #mdpre(head(patient_full, 10))
 
@@ -182,10 +183,11 @@ if (!exists("ggmd"))  ggmd  <- function(p) { print(p) }
 #mdpre(tidied_data %>% count(MARITAL))
 
 #date_summary <- tibble(
-#     Column = c("BIRTHDATE", "DEATHDATE"),
-#     Start = c(min(tidied_data$BIRTHDATE), min(tidied_data$DEATHDATE)),
-#     End = c(max(tidied_data$BIRTHDATE), max(tidied_data$DEATHDATE))
-# )
+#  Column = c("BIRTHDATE", "DEATHDATE"),
+#  Start = c(min(tidied_data$BIRTHDATE), min(tidied_data$DEATHDATE)),
+#  End = c(max(tidied_data$BIRTHDATE), max(tidied_data$DEATHDATE))
+#)
+#mdpre(date_summary)
  
 # mdpre(date_summary)
 
