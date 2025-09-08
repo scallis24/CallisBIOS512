@@ -3,25 +3,27 @@
 #Date: 09/05/2025
 
 #Question 1
+#Function 1 works because it contains {{column}} instead of (column). The {{column}} reads column as a column name not as a string, therefore seeing type as a column in data.
+#Function 2 does not work because (column) is read as a variable named column which does not exist. 
 
 #Question 2
-#cd ~/Desktop/"UNC"/"BIOS 512"
-#git clone https://github.com/scallis24/CallisBIOS512.git
-#git status
+cd ~/Desktop/"UNC"/"BIOS 512"
+git clone https://github.com/scallis24/CallisBIOS512.git
+git status
 
 #Question 3 
 #I used my exisiting key (id_ed25519) which is in my Github as "Mac Key"
-#ssh-add ~/.ssh/id_ed25519
-#git remote add origin git@github.com:scallis24/CallisBIOS512.git
-#git push -u origin main
+ssh-add ~/.ssh/id_ed25519
+git remote add origin git@github.com:scallis24/CallisBIOS512.git
+git push -u origin main
 
 #Question 4
 #a)
-#mkdir HW2
-#echo "This is for homework 2." > HW2/HW2.md
+mkdir HW2
+echo "This is for homework 2." > HW2/HW2.md
 #b)
-#git add HW2/HW2.md
-#git status
+git add HW2/HW2.md
+git status
 #On branch main
 #Your branch is up to date with 'origin/main'.
 #Changes to be committed:
@@ -30,7 +32,7 @@
 #c)
 git commit -m "Add HW2.md for homework 2"
 #d)
-#cat <<EOF > HW2/HW2.md
+cat <<EOF > HW2/HW2.md
 # HW 2
 #This is for homework 2.
 #EOF
@@ -45,7 +47,7 @@ git commit -m "Add HW2.md for homework 2"
 #+
 # This is for homework 2.
 #f)
-#git status
+git status
 #On branch main
 #Your branch is ahead of 'origin/main' by 1 commit.
 #  (use "git push" to publish your local commits)
@@ -62,9 +64,9 @@ git commit -m "Add HW2.md for homework 2"
 #no changes added to commit (use "git add" and/or "git commit -a")
 #Suzis-MBP:CallisBIOS512 suzicallis$ 
 #g)
-#git add HW2/HW2.md
-#git commit -m "Add title to HW2.md"
-#git log
+git add HW2/HW2.md
+git commit -m "Add title to HW2.md"
+git log
 #commit c1f23c4699ff3b1ca47d10ff2b62e0066af5c27e (HEAD -> main)
 #Author: scallis24 <scallis@unc.edu>
 #Date:   Fri Sep 5 17:37:53 2025 -0400
@@ -89,9 +91,9 @@ git commit -m "Add HW2.md for homework 2"
 
 #    Add files via upload
 #h)
-#git help
-#git help log 
-#git help show
+git help
+git help log 
+git help show
 #Description: --since=<date>, --after=<date> Show commits more recent than a specific date.
 
 library(tidyverse)
@@ -101,55 +103,55 @@ if (!exists("ggmd"))  ggmd  <- function(p) { print(p) }
 library(lubricate)
 
 #5
-#patient_names <- read_csv("homework/Assignment3/patient_names.csv")
-#patient_properties <- read_csv("homework/Assignment3/patient_properties.csv")
-#patient_names$BIRTHDATE <- as.Date(patient_names$BIRTHDATE, format = "%m/%d/%Y")
-#patient_names$DEATHDATE <- as.Date(patient_names$DEATHDATE, format = "%m/%d/%Y")
-#head(patient_names$BIRTHDATE, 10)
-#head(patient_names$DEATHDATE, 10)
+patient_names <- read_csv("homework/Assignment3/patient_names.csv")
+patient_properties <- read_csv("homework/Assignment3/patient_properties.csv")
+patient_names$BIRTHDATE <- as.Date(patient_names$BIRTHDATE, format = "%m/%d/%Y")
+patient_names$DEATHDATE <- as.Date(patient_names$DEATHDATE, format = "%m/%d/%Y")
+head(patient_names$BIRTHDATE, 10)
+head(patient_names$DEATHDATE, 10)
 
 #6
-#patient_properties_wide <- patient_properties %>%
-#  pivot_wider(
-#    id_cols = ID,
-#    names_from = property,
-#    values_from = value,
-#    values_fn = ~ .x[1]
-#  )
-#mdpre(head(patient_properties_wide, 10))
+patient_properties_wide <- patient_properties %>%
+  pivot_wider(
+    id_cols = ID,
+    names_from = property,
+    values_from = value,
+    values_fn = ~ .x[1]
+  )
+mdpre(head(patient_properties_wide, 10))
 
 #7
-#patient_full <- left_join(patient_names, patient_properties_wide, by = "ID")
-#mdpre(head(patient_full, 10))
+patient_full <- left_join(patient_names, patient_properties_wide, by = "ID")
+mdpre(head(patient_full, 10))
 
 #8CHECK
-#simplify_strings <- function(s) {
-#  s %>%
-#    str_to_lower() %>%
-#    str_trim() %>%
-#    str_replace_all("[^a-z1-9]+", "_") %>%
-#    str_replace_all("^_+", "") %>%
-#    str_replace_all("_+$", "")
-#}
-#patient_full <- patient_full %>%
-#  mutate(
-#    FIRST = simplify_strings(iconv(str_replace_all(FIRST, "\\d+", ""), from = "UTF-8", to = "Windows-1252")),
-#    LAST  = simplify_strings(iconv(str_replace_all(LAST, "\\d+", ""), from = "UTF-8", to = "Windows-1252"))
-#  )
-#mdpre(head(patient_full, 10))
+simplify_strings <- function(s) {
+  s %>%
+    str_to_lower() %>%
+    str_trim() %>%
+    str_replace_all("[^a-z1-9]+", "_") %>%
+    str_replace_all("^_+", "") %>%
+    str_replace_all("_+$", "")
+}
+patient_full <- patient_full %>%
+  mutate(
+    FIRST = simplify_strings(iconv(str_replace_all(FIRST, "\\d+", ""), from = "UTF-8", to = "Windows-1252")),
+    LAST  = simplify_strings(iconv(str_replace_all(LAST, "\\d+", ""), from = "UTF-8", to = "Windows-1252"))
+  )
+mdpre(head(patient_full, 10))
 
 #9CHECK
-#cols_to_count <- c("CITY", "STATE", "MARITAL", "RACE", "ETHNICITY", "GENDER")
+cols_to_count <- c("CITY", "STATE", "MARITAL", "RACE", "ETHNICITY", "GENDER")
 
-#for (col in cols_to_count) {
-#  cat("\n###", col, "\n")
+for (col in cols_to_count) {
+  cat("\n###", col, "\n")
   
-#  counts <- patient_full %>%
-#    count(.data[[col]]) %>%
-#    arrange(desc(n))
+  counts <- patient_full %>%
+    count(.data[[col]]) %>%
+    arrange(desc(n))
   
-#  mdpre(counts)
-#}
+  mdpre(counts)
+}
 
 #10
 non_erroneous_marital <- c("M", "S")
@@ -210,7 +212,7 @@ mdpre(tidied_data %>% count(ETHNICITY))
 mdpre(tidied_data %>% count(RACE))
 mdpre(tidied_data %>% count(MARITAL))
 
-#date_summary <- tibble(
+date_summary <- tibble(
      Column = c("BIRTHDATE", "DEATHDATE"),
      Start = c(
          format(min(tidied_data$BIRTHDATE), "%Y-%m-%d"),
