@@ -54,3 +54,56 @@ full_long %>%
      group_by(patient_id, name) %>%
      tally() %>%
      arrange(desc(n))
+
+#Question 4
+chr_cols <- c("gender", "race", "ethnicity", "condition", "treatment", 
+               "department", "hospital", "patient_address", "patient_city", "patient_state")
+chr_long <- full %>%
+     select(patient_id, name, all_of(chr_cols)) %>%
+     pivot_longer(
+         cols = all_of(chr_cols),
+         names_to = "property_chr",
+         values_to = "value_chr"
+     ) %>%
+     group_by(patient_id, name) %>%
+     mutate(row = row_number()) %>%
+     ungroup()
+
+num_cols <- c("age", "patient_zipcode")
+ 
+num_long <- full %>%
+     select(patient_id, name, all_of(num_cols)) %>%
+     pivot_longer(
+         cols = all_of(num_cols),
+         names_to = "property_num",
+         values_to = "value_num"
+) %>%
+group_by(patient_id, name) %>%
+mutate(row = row_number()) %>%
+ungroup()
+
+date_cols <- c("admission_date", "release_date")
+
+date_long <- full %>%
+     select(patient_id, name, all_of(date_cols)) %>%
+     pivot_longer(
+         cols = all_of(date_cols),
+         names_to = "property_date",
+         values_to = "value_date"
+) %>%
+group_by(patient_id, name) %>%
+mutate(row = row_number()) %>%
+ungroup()
+
+full_longlong <- chr_long %>%
+     full_join(num_long, by = c("patient_id", "name", "row")) %>%
+     full_join(date_long, by = c("patient_id", "name", "row"))
+tally_per_patient <- full_longlong %>%
+     group_by(patient_id, name) %>%
+     summarise(
+         n_chr  = sum(!is.na(value_chr)),
+         n_num  = sum(!is.na(value_num)),
+         n_date = sum(!is.na(value_date)),
+         .groups = "drop"
+)
+print(tally_per_patient)
