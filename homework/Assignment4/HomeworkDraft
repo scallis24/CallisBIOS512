@@ -98,12 +98,18 @@ ungroup()
 full_longlong <- chr_long %>%
      full_join(num_long, by = c("patient_id", "name", "row")) %>%
      full_join(date_long, by = c("patient_id", "name", "row"))
-tally_per_patient <- full_longlong %>%
-     group_by(patient_id, name) %>%
+full_longlong %>%
+     group_by(patient_id, name) %>%   # ← this is the grouping statement
      summarise(
          n_chr  = sum(!is.na(value_chr)),
          n_num  = sum(!is.na(value_num)),
          n_date = sum(!is.na(value_date)),
-         .groups = "drop"
-)
-print(tally_per_patient)
+         .groups = "drop" 
+
+#Question 5 
+patients_with_hospital <- patient_names %>%
+     left_join(hospitals, by = "hospital_id") %>%
+     select(name, hospital_name)
+head(patients_with_hospital)
+
+#Question 6
