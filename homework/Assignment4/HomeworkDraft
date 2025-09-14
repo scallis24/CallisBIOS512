@@ -1,0 +1,56 @@
+#Question 1
+library(tidyverse)
+
+table_a <- tibble(
+  SKU = c(102345, 104567, 108912, 109876, 112233),
+  Fruit = c("Apple", "Orange", "Mango", "Blueberry", "Watermelon"),
+  Color = c("Red", "Orange", "Yellow", "Blue", "Green"),
+  Price = c(1.20, 1.40, 1.70, 3.50, 4.40),
+  In_Stock = c("Yes", "Yes", "No", "Yes", "No")
+)
+
+table_b <- tibble(
+  SKU = c(102345, 105432, 106789, 104567, 107654),
+  Fruit = c("Apple", "Banana", "Grape", "Orange", "Pear"),
+  Color = c("Red", "Yellow", "Purple", "Orange", "Green"),
+  Sale_Price = c(1.00, 0.50, 2.00, 1.20, 1.10),
+  Number_in_Stock = c(50, 120, 0, 75, 0)
+)
+#1a)Left Join
+> left_join_table <- left_join(table_a, table_b, by = "SKU")
+#1b)Right Join
+> right_join_table <- right_join(table_a, table_b, by = "SKU")
+#1c)Inner Join
+> inner_join_table <- inner_join(table_a, table_b, by = "SKU")
+#1d)Full Join
+> full_join_table <- full_join(table_a, table_b, by = "SKU")
+#1e)Semi Join
+> semi_join_table <- semi_join(table_a, table_b, by = "SKU")
+#1f)Anti Join
+> anti_join_table <- anti_join(table_a, table_b, by = "SKU")
+
+#Question 2 
+#2a)Import Data
+demographics <- read_csv("homework/Assignment4/demographics.csv")
+full <- read_csv("homework/Assignment4/full.csv")
+hospitals <- read_csv("homework/Assignment4/hospitals.csv")
+patient_names <- read_csv("homework/Assignment4/patient_names.csv")
+treatment_info <- read_csv("homework/Assignment4/treatment_info.csv")
+#2b)
+glimpse(demographics)
+glimpse(full)
+glimpse(hospitals)
+glimpse(patient_names)
+glimpse(treatment_info)
+
+#Question 3
+full_long <- pivot_longer(full, 
+     cols = -c(patient_id, name),
+     names_to = "property",
+     values_to = "observation",
+     values_transform = function(x) ifelse(is.na(x), NA, as.character(x))
+  )
+full_long %>%
+     group_by(patient_id, name) %>%
+     tally() %>%
+     arrange(desc(n))
