@@ -253,3 +253,36 @@ clean_df <- clean_df %>%
       TRUE ~ explanation
     )
   )
+low_uniquetable <- clean_df %>%
+     select(shape, explanation, has_image, reported) %>%   
+     arrange(shape, explanation, has_image) 
+
+#Question 8
+clean_df <- clean_df %>%
+  mutate(country = str_to_lower(country))
+ufos_us <- clean_df %>%
+  filter(country == "usa")
+ufos_us_clean <- ufos_us %>%
+     filter(!state %in% c("0", "Corrientes", "ENG", "England", "GU", "PR", "VI", "UM", "-")) %>%
+     mutate(state = case_when(
+         state == "Ca" ~ "CA",
+         state == "Fl" ~ "FL",
+         state == "Montana" ~ "MT",
+         state == "NB" ~ "NE",
+         state == "New York" ~ "NY",
+         state == "Ohio" ~ "OH",
+         state == "West Virginia" ~ "WV",
+         state == "Wisconsin" ~ "WI",
+         TRUE ~ state
+     ))
+state_counts <- ufos_us_clean %>%
+     group_by(state) %>%
+     tally()
+ggplot(state_counts, aes(x = state, y = n, fill = state)) +
+     geom_bar(stat = "identity", position = "dodge") +
+     labs(x = "State", y = "Number of Sightings", title = "Number of UFO Sightings by State") +
+     theme(
+         axis.text.x = element_text(angle = 90, hjust = 1, size = 8),  # vertical and smaller font
+         legend.position = "none"
+     ) +
+     scale_x_discrete(guide = guide_axis(n.dodge = 1))
