@@ -113,3 +113,8 @@ patients_with_hospital <- patient_names %>%
 head(patients_with_hospital)
 
 #Question 6
+patient_demographics_treatment <- patient_names %>%
+     left_join(demographics, by = "patient_id") %>%       # join on patient_id
+     left_join(treatment_info, by = "condition_id") %>%   # join on condition_id
+     select(patient_id, name, age, gender, condition, treatment)
+ head(patient_demographics_treatment)
