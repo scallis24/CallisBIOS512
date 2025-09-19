@@ -1,6 +1,23 @@
 library(tidyverse)
 library(Rtsne)
 #1.1 Question 1
-#a)wine <- read_csv("homework/Assignment5/wine.csv")
-#b)str(wine)
+#a)
+wine <- read_csv("homework/Assignment5/wine.csv")
+#b)
+str(wine)
 #c)
+summary(wine)
+
+#1.2 Question 2
+#a)
+wine_scaled <- wine %>%
+     mutate(across(-class, ~ as.numeric(scale(.))))
+ View(wine_scaled)
+#b) Scaling and centering data is generally good practice before performing a PCA, because the PCA is a rotation, and you want to rotate around the center of the data.
+It is especially important when the variable importance is unknown and there are consistently occurring spikes, like in the wine data. The summary statistic showed large variation
+between values for the different variables, like Proline (values in the 1000s) and Hue (values less than 1). Without scaling, this would lead the PCA to cause unequal variance, even
+though the importance of the variables is unknown. Thus by scaling and centering each variable will have equal variance to the principal components, and the ability to analyze the data 
+based on true variance, not magnitude. 
+
+#1.3 Question 3 
+#a) 
