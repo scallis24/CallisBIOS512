@@ -21,3 +21,26 @@ based on true variance, not magnitude.
 
 #1.3 Question 3 
 #a) 
+PCA<-prcomp(wine_scaled)
+PCA
+summary(PCA)
+#b) PC1 accounts for 38.21% and PC2 accounts for 18.36% of the total variance. Collectively, they account for 56.57% of the total variance. Use summary(PCA) to see this. 
+#c) The PCA is performed first becasue..... 
+#d)
+PCA_rotationmatrix<-solve(PCA$rotation)
+head(PCA_rotationmatrix)
+#e)
+pca_scores <- as_tibble(PCA$x) %>%
+     mutate(class = wine$class) 
+ggplot(pca_scores, aes(x = PC1, y = PC2, color = factor(class))) +
+     geom_point()
+#f) After plotting PC1 vs PC2, the PCA was mostly effective at distinguishing between the three classes. Class 1 and Class 3 from clear separate clusters. Class 2 had some overlap with Class 1 and 3. 
+This means that Class 1 and Class 3 are distinctly different, while Class 2 shares some similarities with Class 1 and Class 3. By only examining the 1st and 2nd principal components helps to seperate
+the wine classes, but not completely. 
+#g) The PCA would fail when the data set only has one notable degree of variation. An example of this is data that forms concentric circles. In this data set the radius is the main variation, with data spread around it.
+No rotation is able to separate two axes and thus the PCA will fail. 
+#h)A vector space is a combination of a set and a field that operates using specific axioms that can combine data points linearly. This is restrictive and often does not make sense for most real data.
+A manifold is a better representation of most data because it locally behaves like a vector space, but globally has a more complex structure. This applies to the T-SNE because it looks at local relationships between points
+like the probability of two points being neighbors. The t-SNE can be used for optimizing the placement of points based on the local relationship, making it useful for manifolds. When the PCA was performed
+on the Wine data, it mostly worked, showing distinctions between Class 1 and Class 3 and some overlap with Class 2. This overlap shows that some of the data may have some nonlinear relationships, indicating it may be a manifold. 
+Conducting a t-SNE will show a better visualization if it is a manifold by focusing on the local relationships between the Classes. 
