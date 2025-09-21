@@ -1,5 +1,8 @@
 library(tidyverse)
 library(Rtsne)
+if (!exists("mdpre")) mdpre <- function(x) { print(x) }
+if (!exists("ggmd"))  ggmd  <- function(p) { print(p) }
+
 #1.1 Question 1
 #a)
 wine <- read_csv("homework/Assignment5/wine.csv")
@@ -32,8 +35,10 @@ head(PCA_rotationmatrix)
 #e)
 pca_scores <- as_tibble(PCA$x) %>%
      mutate(class = wine$class) 
-ggplot(pca_scores, aes(x = PC1, y = PC2, color = factor(class))) +
-     geom_point()
+ggmd(
+  ggplot(pca_scores, aes(x = PC1, y = PC2, color = factor(class))) +
+    geom_point()
+)
 #f) After plotting PC1 vs PC2, the PCA was mostly effective at distinguishing between the three classes. Class 1 and Class 3 from clear separate clusters. Class 2 had some overlap with Class 1 and 3. 
 This means that Class 1 and Class 3 are distinctly different, while Class 2 shares some similarities with Class 1 and Class 3. By only examining the 1st and 2nd principal components helps to seperate
 the wine classes, but not completely. 
@@ -44,3 +49,20 @@ A manifold is a better representation of most data because it locally behaves li
 like the probability of two points being neighbors. The t-SNE can be used for optimizing the placement of points based on the local relationship, making it useful for manifolds. When the PCA was performed
 on the Wine data, it mostly worked, showing distinctions between Class 1 and Class 3 and some overlap with Class 2. This overlap shows that some of the data may have some nonlinear relationships, indicating it may be a manifold. 
 Conducting a t-SNE will show a better visualization if it is a manifold by focusing on the local relationships between the Classes. 
+
+#1.4 Question 4
+#a)
+pca_subset <- as_tibble(PCA$x[, 1:10]) %>%   
+     mutate(class = wine$class)                
+ pca_noduplicate <- pca_subset %>% distinct()
+ tsne_input <- pca_noduplicate %>% select(-class)  
+set.seed(123)
+tsne_result <- Rtsne(tsne_input, dims = 2, perplexity = 30, verbose = FALSE, check_duplicates = FALSE)
+#b)
+tsne_results <- as_tibble(tsne_result$Y) %>%
+  mutate(class = pca_noduplicate$class)
+ggmd(
+  ggplot(tsne_results, aes(V1, V2)) +
+    geom_point(aes(color = factor(class)))
+)
+#c
