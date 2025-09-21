@@ -28,7 +28,8 @@ PCA<-prcomp(wine_scaled)
 PCA
 summary(PCA)
 #b) PC1 accounts for 38.21% and PC2 accounts for 18.36% of the total variance. Collectively, they account for 56.57% of the total variance. Use summary(PCA) to see this. 
-#c) The PCA is performed first becasue..... 
+#c) The PCA is performed first because it can simplify data by reducing noise while retaining the overall information. It allows for an initial visualization and reveal hidden paterrns
+necessary for further analysis like a t-SNE. 
 #d)
 PCA_rotationmatrix<-solve(PCA$rotation)
 head(PCA_rotationmatrix)
@@ -65,4 +66,8 @@ ggmd(
   ggplot(tsne_results, aes(V1, V2)) +
     geom_point(aes(color = factor(class)))
 )
-#c
+#c)The homework asked for a t-SNE to be performed because the data was non-linear, and PCA only captures relationships of linear data. 
+Additionally, PCA produces a rotation matrix that can be applied to new data, making it optimal for preprocessing and generalization. 
+t-SNE can capture local neighborhoods and nonlinear patterns by optimizing the placement of points without transforming new data into the same space. 
+t-SNE is optimal for visualization over PSA. 
+#d)This workflow would be good for other high-dimensional data that occupies a much lower-dimensional manifold within that high-dimensional space. This can occur when there are many highly correlated variables like in text data. 
